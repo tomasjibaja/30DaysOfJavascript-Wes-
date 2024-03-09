@@ -4,8 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            background-image: url(img/inicio_fondo.png);
+            background-position: 50% 10%;
+            background-repeat: no-repeat;
+            background-color: yellow;
+
+            width: 100vw;
+            height: 100vh;
+
+            display: grid;
+            place-items: center;
+            grid-auto-flow: column;
+
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .key {
+            width: 60px;
+            height: 60px;
+            border: 2px solid purple;
+            border-radius: 7px;
+            transition: all .05s ease;
+        }
+
+        b {
+            display: block;
+            font-size: 30px;
+            text-align: center;
+        }
+
+        i {
+            font-size: 12px;
+            text-align: center;
+            display: block;
+        }
+
+        .playing {
+            transform: scale(1.2);
+            background-color: rgba(50,50,50,.5);
+            color: #fff;
+            border-color: #fff;
+        }
+
+    </style>
 </head>
 <body>
+
+    <div data-key="65" class="key"><b>A</b><i>CLAP</i></div>
+    <div data-key="83" class="key"><b>S</b><i>HIHAT</i></div>
+    <div data-key="68" class="key"><b>D</b><i>KICK</i></div>
+    <div data-key="70" class="key"><b>F</b><i>OPENHAT</i></div>
+    <div data-key="71" class="key"><b>G</b><i>BOOM</i></div>
+    <div data-key="72" class="key"><b>H</b><i>RIDE</i></div>
+    <div data-key="74" class="key"><b>J</b><i>SNARE</i></div>
+    <div data-key="75" class="key"><b>K</b><i>TOM</i></div>
+    <div data-key="76" class="key"><b>L</b><i>TINK</i></div>
+
+    <audio data-key="65" src="sounds/clap.wav"></audio>
+    <audio data-key="83" src="sounds/hihat.wav"></audio>
+    <audio data-key="68" src="sounds/kick.wav"></audio>
+    <audio data-key="70" src="sounds/openhat.wav"></audio>
+    <audio data-key="71" src="sounds/boom.wav"></audio>
+    <audio data-key="72" src="sounds/ride.wav"></audio>
+    <audio data-key="74" src="sounds/snare.wav"></audio>
+    <audio data-key="75" src="sounds/tom.wav"></audio>
+    <audio data-key="76" src="sounds/tink.wav"></audio>
     
+<script>
+    window.addEventListener('keydown', function(e) {
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        if(!audio) return;
+        audio.currentTime = 0;
+        audio.play();
+        key.classList.add('playing');
+    })
+
+    function removeTransition(e) {
+        if (e.propertyName !== 'transform') return;
+        this.classList.remove('playing');
+    }
+
+    const keysa = document.querySelectorAll('.key');
+
+    keysa.forEach(key => key.addEventListener('transitionend', removeTransition));
+</script>
 </body>
 </html>
